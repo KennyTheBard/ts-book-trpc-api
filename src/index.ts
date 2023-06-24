@@ -3,23 +3,23 @@ import * as trpcExpress from "@trpc/server/adapters/express";
 import * as cors from "cors";
 import * as express from "express";
 import { z } from "zod";
+import { db } from "./db";
+import { AuthorSchema, BookSchema } from "./models";
 
 export const bootstrap = (async () => {
     const trpc = initTRPC.create();
 
     const appRouter = trpc.router({
-        // createAuthor: trpc.procedure.input().mutation(),
-        // createBook: trpc.procedure.input().mutation(),
-        getAuthors: trpc.procedure.query((opts) => {}),
+        createAuthor: trpc.procedure.input(AuthorSchema).mutation((opts) => db.authors.push(opts.input)),
+        createBook: trpc.procedure.input(BookSchema).mutation((opts) => db.books.push(opts.input)),
+        getAuthors: trpc.procedure.query((opts) => db.authors),
         getAuthorById: trpc.procedure
             .input(z.object({ id: z.number() }))
-            .query((opts) => {
-                
-            }),
-        getBooks: trpc.procedure.query((opts) => {}),
+            .query((opts) => db.authors.find(author => author.id === opts.input.id)),
+        getBooks: trpc.procedure.query((opts) => db.books),
         getBookById: trpc.procedure
             .input(z.object({ id: z.number() }))
-            .query((opts) => {}),
+            .query((opts) => db.books.find(book => book.id === opts.input.id)),
     });
 
     // created for each request
@@ -40,5 +40,5 @@ export const bootstrap = (async () => {
         })
     );
 
-    app.listen(3000)
+    app.listen(3000);
 })();
