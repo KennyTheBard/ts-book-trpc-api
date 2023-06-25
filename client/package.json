@@ -1,0 +1,19 @@
+{
+  "name": "ts-book-trpc-api",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build": "tsc",
+    "watch": "tsc -w",
+    "start": "node build/client/src/index.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@trpc/client": "^10.32.0"
+  },
+  "devDependencies": {
+    "typescript": "^5.1.3"
+  }
+}
