@@ -6,8 +6,7 @@ export type Author = {
     dateOfBirth: Date;
 };
 
-export const AuthorSchema: z.ZodType<Author> = z.object({
-    id: z.number(),
+export const AuthorSchema = z.object({
     name: z.string(),
-    dateOfBirth: z.date(),
+    dateOfBirth: z.string(),
 });

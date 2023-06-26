@@ -11,20 +11,20 @@ const trpc = createTRPCProxyClient<AppRouter>({
 
 async function doStuff() {
     await trpc.createAuthor.mutate({
-        id: 1,
         name: "Testuleascu",
-        dateOfBirth: new Date()
+        dateOfBirth: new Date().toISOString()
     });
 
     const book = await trpc.createBook.mutate({
-        id: 1,
         title: "Test",
-        publishDate: new Date(),
+        publishDate: new Date().toISOString(),
         authorId: 1
     })
 
+    const authors = await trpc.getAuthors.query();
     const books = await trpc.getBooks.query();
 
+    console.log(authors);
     console.log(books);
 }
 

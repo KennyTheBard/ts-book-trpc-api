@@ -10,16 +10,18 @@ const trpc = initTRPC.create();
 
 const appRouter = trpc.router({
     createAuthor: trpc.procedure.input(AuthorSchema).mutation((opts) => {
-        if (db.authors.find((author) => author.id === opts.input.id)) {
-            throw new Error(`Author #${opts.input.id} already exists`);
-        }
-        db.authors.push(opts.input);
+        db.authors.push({
+            ...opts.input,
+            id: db.authors.length,
+            dateOfBirth: new Date(opts.input.dateOfBirth)
+        });
     }),
     createBook: trpc.procedure.input(BookSchema).mutation((opts) => {
-        if (db.books.find((book) => book.id === opts.input.id)) {
-            throw new Error(`Book #${opts.input.id} already exists`);
-        }
-        db.books.push(opts.input);
+        db.books.push({
+            ...opts.input,
+            id: db.books.length,
+            publishDate: new Date(opts.input.publishDate)
+        });
     }),
     getAuthors: trpc.procedure.query((opts) => db.authors),
     getAuthorById: trpc.procedure
@@ -55,4 +57,4 @@ app.use(
     })
 );
 
-app.listen(3000, () => console.log("Listening on http://localhost:3000"));
+app.listen(3000, () => console.log("Listening on http://localhost:3000/trpc"));

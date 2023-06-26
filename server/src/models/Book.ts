@@ -7,9 +7,8 @@ export type Book = {
     authorId: number;
 }
 
-export const BookSchema: z.ZodType<Book> = z.object({
-    id: z.number(),
+export const BookSchema = z.object({
     title: z.string(),
-    publishDate: z.date(),
+    publishDate: z.string(),
     authorId: z.number()
 });
